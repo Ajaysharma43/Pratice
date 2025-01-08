@@ -1,35 +1,39 @@
 import { Dialog, DialogContent } from "@mui/material";
-import { InitialState,Reducer } from "../../Reducer/Addtodoreducer";
-import { DataReducer,DataState } from "../../Reducer/TodoReducer";
+import { InitialState, Reducer } from "../../Reducer/Addtodoreducer";
+import { DataReducer, DataState } from "../../Reducer/TodoReducer";
 import { useReducer, useState } from "react";
 import { data } from "react-router-dom";
 
-const Addtodo = ({ open, onClose }) => {
+const Addtodo = ({ open, onClose, getdata }) => {
+  const [state, dispatch] = useReducer(Reducer, InitialState);
+  const [datastate, DataReduce] = useReducer(DataReducer, DataState);
 
-    const [state,dispatch] = useReducer(Reducer,InitialState);
-    const [datastate,DataReduce] = useReducer(DataReducer,DataState);
+  const HandleChange = (e) => {
+    dispatch({
+      type: "UPDATE_TODO",
+      field: e.target.name,
+      value: e.target.value,
+    });
+  };
 
-    const HandleChange = (e) => {
-        dispatch({
-            type:'UPDATE_TODO',
-            field:e.target.name,
-            value:e.target.value
-        })
-    }
+  const HandleSubmit = (e) => {
+      e.preventDefault();
+      console.log(state);
+      DataReduce({
+        type: "ADD_TASK",
+        payload: state,
+      });
 
-    const HandleSubmit = (e) => {
-        e.preventDefault()
-        console.log(state);
-        DataReduce({
-            type:'ADD_TASK',
-            payload:state
-        })
-        
-        dispatch({
-            type:'RESET'
-        })
-    }
+      datastate.push[state]
+console.log(datastate);
 
+      dispatch({
+        type: "RESET",
+      });
+      console.log(DataState);
+      
+      getdata()
+    };
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -44,7 +48,7 @@ const Addtodo = ({ open, onClose }) => {
               type="text"
               value={state.Taskname}
               name="Taskname"
-              onChange={(e)=>HandleChange(e)}
+              onChange={(e) => HandleChange(e)}
               className="w-full border border-gray-300 rounded px-3 py-2"
             />
           </div>
