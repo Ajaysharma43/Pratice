@@ -17,23 +17,19 @@ const Addtodo = ({ open, onClose, getdata }) => {
   };
 
   const HandleSubmit = (e) => {
-      e.preventDefault();
-      console.log(state);
-      DataReduce({
-        type: "ADD_TASK",
-        payload: state,
-      });
+    e.preventDefault();
+    console.log(state);
+    DataReduce({
+      type: "ADD_TASK",
+      payload: state,
+    });
+    console.log(datastate);
 
-      datastate.push[state]
-console.log(datastate);
-
-      dispatch({
-        type: "RESET",
-      });
-      console.log(DataState);
-      
-      getdata()
-    };
+    dispatch({
+      type: "RESET",
+    });
+    getdata()
+  };
 
   return (
     <Dialog open={open} onClose={onClose}>

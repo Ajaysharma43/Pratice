@@ -1,32 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Addtodo from "./TodoDilogs/Addtodo";
+import { DataReducer, DataState } from "../Reducer/TodoReducer";
 
 
 
 const Todo = () => {
   const [dialogState, setDialogState] = useState(false);
   const [tododata,settodo] = useState([])
-
-  const getdata = () => {
-    const data = localStorage.getItem('state')
-    const parsedData = data ? JSON.parse(data) : [];
-    if (Array.isArray(parsedData)) {
-        settodo(parsedData);
-      } else {
-        settodo([]); 
-      }
-    console.log(tododata);
-  }
-
-  useEffect(()=>{
-    getdata()
-  },[])
   
   
 
   const toggleDialog = () => {
     setDialogState((prev) => !prev);
   };
+
+  const [state,reducer] = useReducer(DataState,DataReducer)
+
+  const getdata = () =>{
+    console.log(DataState);
+  }
 
   return (
     <>
@@ -40,16 +32,6 @@ const Todo = () => {
             </tr>
           </thead>
           <tbody>
-            {
-                tododata.map((item,index)=>(
-                    <>
-                    <tr key={index}>
-                        <th>{item.Taskname}</th>
-                        <th>{item.Task}</th>
-                    </tr>
-                    </>
-                ))
-            }
           </tbody>
         </table>
         <button
