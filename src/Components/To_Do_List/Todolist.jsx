@@ -5,7 +5,6 @@ import { DataReducer, DataState } from "../Reducer/TodoReducer";
 const Todo = () => {
   const [dialogState, setDialogState] = useState(false);
 
-  // Initialize the reducer
   const [state, dispatch] = useReducer(DataReducer, DataState);
 
   const toggleDialog = () => {
@@ -13,12 +12,12 @@ const Todo = () => {
   };
 
   const getdata = () => {
-    console.log("Updated State:", state); // Optional: For debugging
+    console.log("Updated State:", state);
   };
 
   return (
     <>
-      {/* Pass down the reducer dispatch and state */}
+      
       <Addtodo open={dialogState} onClose={toggleDialog} dispatch={dispatch} getdata={getdata} />
 
       <div className="space-y-4">
@@ -30,11 +29,10 @@ const Todo = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Map the tasks to display in the table */}
-            {state.map((task, index) => (
+            {state.map((item, index) => (
               <tr key={index}>
-                <td className="border border-black px-4 py-2">{task.Taskname}</td>
-                <td className="border border-black px-4 py-2">{task.Task}</td>
+                <td className="border border-black px-4 py-2">{item.Taskname}</td>
+                <td className="border border-black px-4 py-2">{item.Task}</td>
               </tr>
             ))}
           </tbody>

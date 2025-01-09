@@ -1,3 +1,7 @@
+import { Dialog, DialogContent } from "@mui/material";
+import { useReducer } from "react";
+import { InitialState, Reducer } from "../../Reducer/Addtodoreducer";
+
 const Addtodo = ({ open, onClose, dispatch, getdata }) => {
   const [state, localDispatch] = useReducer(Reducer, InitialState);
 
@@ -12,7 +16,7 @@ const Addtodo = ({ open, onClose, dispatch, getdata }) => {
   const HandleSubmit = (e) => {
     e.preventDefault();
 
-    // Dispatch the new task to the shared state in Todo
+    // Dispatch the new task to the parent state
     dispatch({
       type: "ADD_TASK",
       payload: state,
@@ -23,7 +27,7 @@ const Addtodo = ({ open, onClose, dispatch, getdata }) => {
       type: "RESET",
     });
 
-    // Optional callback to update the UI or logs
+    // Optional: Trigger any additional effects or logs
     getdata();
 
     // Close the dialog
