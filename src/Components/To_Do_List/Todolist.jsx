@@ -1,28 +1,26 @@
-import { useEffect, useReducer, useState } from "react";
+import { useReducer, useState } from "react";
 import Addtodo from "./TodoDilogs/Addtodo";
 import { DataReducer, DataState } from "../Reducer/TodoReducer";
 
-
-
 const Todo = () => {
   const [dialogState, setDialogState] = useState(false);
-  const [tododata,settodo] = useState([])
-  
-  
+
+  // Initialize the reducer
+  const [state, dispatch] = useReducer(DataReducer, DataState);
 
   const toggleDialog = () => {
     setDialogState((prev) => !prev);
   };
 
-  const [state,reducer] = useReducer(DataState,DataReducer)
-
-  const getdata = () =>{
-    console.log(DataState);
-  }
+  const getdata = () => {
+    console.log("Updated State:", state); // Optional: For debugging
+  };
 
   return (
     <>
-      <Addtodo open={dialogState} onClose={toggleDialog} getdata={getdata} />
+      {/* Pass down the reducer dispatch and state */}
+      <Addtodo open={dialogState} onClose={toggleDialog} dispatch={dispatch} getdata={getdata} />
+
       <div className="space-y-4">
         <table className="table border border-black border-collapse w-full text-left">
           <thead>
@@ -32,8 +30,16 @@ const Todo = () => {
             </tr>
           </thead>
           <tbody>
+            {/* Map the tasks to display in the table */}
+            {state.map((task, index) => (
+              <tr key={index}>
+                <td className="border border-black px-4 py-2">{task.Taskname}</td>
+                <td className="border border-black px-4 py-2">{task.Task}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
+
         <button
           onClick={toggleDialog}
           className="px-4 py-2 bg-green-500 text-black rounded hover:bg-green-600"

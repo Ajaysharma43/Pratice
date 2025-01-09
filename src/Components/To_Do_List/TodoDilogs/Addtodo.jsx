@@ -1,15 +1,8 @@
-import { Dialog, DialogContent } from "@mui/material";
-import { InitialState, Reducer } from "../../Reducer/Addtodoreducer";
-import { DataReducer, DataState } from "../../Reducer/TodoReducer";
-import { useReducer, useState } from "react";
-import { data } from "react-router-dom";
-
-const Addtodo = ({ open, onClose, getdata }) => {
-  const [state, dispatch] = useReducer(Reducer, InitialState);
-  const [datastate, DataReduce] = useReducer(DataReducer, DataState);
+const Addtodo = ({ open, onClose, dispatch, getdata }) => {
+  const [state, localDispatch] = useReducer(Reducer, InitialState);
 
   const HandleChange = (e) => {
-    dispatch({
+    localDispatch({
       type: "UPDATE_TODO",
       field: e.target.name,
       value: e.target.value,
@@ -18,23 +11,29 @@ const Addtodo = ({ open, onClose, getdata }) => {
 
   const HandleSubmit = (e) => {
     e.preventDefault();
-    console.log(state);
-    DataReduce({
+
+    // Dispatch the new task to the shared state in Todo
+    dispatch({
       type: "ADD_TASK",
       payload: state,
     });
-    console.log(datastate);
 
-    dispatch({
+    // Reset local state
+    localDispatch({
       type: "RESET",
     });
-    getdata()
+
+    // Optional callback to update the UI or logs
+    getdata();
+
+    // Close the dialog
+    onClose();
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogContent>
-        <form action="" onSubmit={(e) => HandleSubmit(e)} className="space-y-4">
+        <form action="" onSubmit={HandleSubmit} className="space-y-4">
           <div>
             <label htmlFor="taskTitle" className="block mb-2 font-medium">
               Task Title
@@ -44,7 +43,7 @@ const Addtodo = ({ open, onClose, getdata }) => {
               type="text"
               value={state.Taskname}
               name="Taskname"
-              onChange={(e) => HandleChange(e)}
+              onChange={HandleChange}
               className="w-full border border-gray-300 rounded px-3 py-2"
             />
           </div>
