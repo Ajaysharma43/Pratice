@@ -1,4 +1,4 @@
-import Data from "../../Components/Ecomerce/Data/Data"
+import Data from "../../../Components/Ecomerce/Data/Data"
 
 const Ecommerce = () => {
     return(

@@ -10,6 +10,7 @@ import {
 } from "../../Reducer/Ecommerce_Reducer/Ecommerce_CartData";
 import Drawers from "../Drawer/Drawer";
 import context from "../../../Context/CartContext/Cartcontext";
+import { Link } from "react-router-dom";
 
 const Data = () => {
   const [products, setProducts] = useState([]);
@@ -81,6 +82,7 @@ const Data = () => {
             key={item.id}
             className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
           >
+            <Link to={`/product/${item.id}`}>
             <img
               src={item.images[0]}
               alt={item.title}
@@ -94,13 +96,15 @@ const Data = () => {
                 {item.description}
               </p>
               <p className="text-green-500 font-semibold mt-3">${item.price}</p>
+              </div>
+              </Link>
               <button
                 onClick={() => handleAddToCart(item)}
                 className="mt-4 py-2 w-full bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-all duration-200 focus:ring focus:ring-gray-500"
               >
                 ➕ Add to Cart
               </button>
-            </div>
+            
           </div>
         ))}
       </div>

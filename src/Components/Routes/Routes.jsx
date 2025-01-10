@@ -4,7 +4,8 @@ import Feedback from "../Form/FeedbackForm";
 import Todo from "../To_Do_List/Todolist";
 import MyComponent from "../UseContext/Component/Mycomponent";
 import Pratice from "../../Pages/Pratice/Pratice";
-import Ecommerce from "../../Pages/Ecommerce/Ecommerce";
+import Ecommerce from "../../Pages/Ecommerce/Homepage/Ecommerce";
+import Product from "../Ecomerce/Product/Product";
 
 const Routes = () => {
   const Route = useRoutes([
@@ -12,7 +13,8 @@ const Routes = () => {
     { element: <Feedback />, path: "/Feedback" },
     {element : <Todo/>,path:'/Todo'},
     {element:<Pratice/>,path:"/pratice"},
-    {element:<Ecommerce/>,path:"/ecommerce"}
+    {element:<Ecommerce/>,path:"/ecommerce"},
+    {element:<Product/>,path:"/product/:slug"}
   ]);
   return Route;
 };
