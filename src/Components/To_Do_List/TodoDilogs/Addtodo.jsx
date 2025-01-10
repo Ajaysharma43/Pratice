@@ -16,21 +16,17 @@ const Addtodo = ({ open, onClose, dispatch, getdata }) => {
   const HandleSubmit = (e) => {
     e.preventDefault();
 
-    // Dispatch the new task to the parent state
     dispatch({
       type: "ADD_TASK",
       payload: state,
     });
 
-    // Reset local state
     localDispatch({
       type: "RESET",
     });
 
-    // Optional: Trigger any additional effects or logs
     getdata();
 
-    // Close the dialog
     onClose();
   };
 

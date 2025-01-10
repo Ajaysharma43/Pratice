@@ -2,7 +2,9 @@ import { useReducer, useState } from "react";
 import Addtodo from "./TodoDilogs/Addtodo";
 import { DataReducer, DataState } from "../Reducer/TodoReducer";
 
+
 const Todo = () => {
+
   const [dialogState, setDialogState] = useState(false);
 
   const [state, dispatch] = useReducer(DataReducer, DataState);
@@ -17,7 +19,6 @@ const Todo = () => {
 
   return (
     <>
-      
       <Addtodo open={dialogState} onClose={toggleDialog} dispatch={dispatch} getdata={getdata} />
 
       <div className="space-y-4">
