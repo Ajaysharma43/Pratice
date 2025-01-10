@@ -27,19 +27,29 @@ const Data = () => {
   }, [state]);
 
   const handleAddToCart = (product) => {
-    const newproduct = {
-      ProductId: product.id,
-      ProductName: product.title,
-      ProductPrice: product.price,
-      ProductImage: product.images,
-    };
-
-    console.log("Product Added:", newproduct);
-
-    dispatch({
-      type: "ADD_PRODUCT",
-      payload: newproduct,
-    });
+    const Existed = Cart.find((existedproduct)=>existedproduct.ProductId === product.id)
+    if(Existed)
+    {
+        console.log("already existed");
+        
+    }
+    else
+    {
+        const newproduct = {
+            ProductId: product.id,
+            ProductName: product.title,
+            ProductPrice: product.price,
+            ProductImage: product.images,
+          };
+      
+          console.log("Product Added:", newproduct);
+      
+          dispatch({
+            type: "ADD_PRODUCT",
+            payload: newproduct,
+          });
+    }
+    
   };
 
   const togglestate = () => {
