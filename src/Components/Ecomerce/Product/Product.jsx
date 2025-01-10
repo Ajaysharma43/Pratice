@@ -1,13 +1,15 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useReducer} from "react";
 import { useParams } from "react-router-dom";
 import Drawers from "../Drawer/Drawer";
 import context from "../../../Context/CartContext/Cartcontext";
+import { Cart_Reducer , Cart_InitialState } from "../../Reducer/Ecommerce_Reducer/Ecommerce_Reducer";
 
 const Product = () => {
     const { slug } = useParams(); // Destructure to get slug directly
     const [Single, setSingle] = useState(null); // Initializing with null instead of undefined
     const [Drawerstate, setdrawerstate] = useState(false);
+      const [state, dispatch] = useReducer(Cart_Reducer, Cart_InitialState);
     const [Cart, setcart] = useState([]);
     
     useEffect(() => {
@@ -22,6 +24,10 @@ const Product = () => {
         SingleProduct();
     }, [slug]); // Add slug as a dependency to re-fetch when it changes
 
+    useEffect(() => {
+        setcart(state);
+      }, [state]);
+
     // Check if Single data is available before rendering
     if (!Single) {
         return <div className="flex justify-center items-center h-screen text-lg">Loading...</div>; // Loading state if data isn't ready
@@ -29,6 +35,28 @@ const Product = () => {
 
     const togglestate = () => {
         setdrawerstate(!Drawerstate);
+      };
+
+      const handleAddToCart = (product) => {
+        const Existed = Cart.find(
+          (existedproduct) => existedproduct.ProductId === product.id
+        );
+        if (Existed) {
+          console.log("already existed");
+        } else {
+          const newproduct = {
+            ProductId: product.id,
+            ProductName: product.title,
+            ProductPrice: product.price,
+            ProductImage: product.images,
+            ProductQuantity: 1
+          };
+    
+          dispatch({
+            type: "ADD_PRODUCT",
+            payload: newproduct,
+          });
+        }
       };
 
     return (
@@ -43,7 +71,7 @@ const Product = () => {
         </button>
         <div className="flex justify-center items-center py-12 px-4">
             <div className="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-12 bg-white  rounded-lg overflow-hidden w-full max-w-5xl p-6">
-                {/* Product Image */}
+               
                 <section className="flex-shrink-0">
                     <img 
                         src={Single.images[0]} 
@@ -52,16 +80,17 @@ const Product = () => {
                     />
                 </section>
 
-                {/* Product Details */}
                 <section className="w-full">
                     <h1 className="text-3xl font-semibold text-gray-800 mb-4">{Single.title}</h1>
                     <p className="text-lg text-gray-600 mb-4">{Single.description}</p>
                     <h2 className="text-2xl text-green-600 font-bold mb-4">${Single.price}</h2>
 
-                    {/* Add to Cart Button */}
-                    <button className="mt-6 py-2 px-6 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out focus:ring focus:ring-offset-1 ring-blue-700">
-                        Add to Cart
-                    </button>
+                    <button
+                onClick={() => handleAddToCart(Single)}
+                className="mt-4 py-2 w-full bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-all duration-200 focus:ring focus:ring-gray-500"
+              >
+                ➕ Add to Cart
+              </button>
                 </section>
             </div>
         </div>
