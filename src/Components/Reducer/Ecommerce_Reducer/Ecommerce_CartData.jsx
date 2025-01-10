@@ -3,6 +3,7 @@ export const CartData = {
   ProductName: "",
   ProductPrice: "",
   ProductImage: "",
+  ProductQuantity: ""
 };
 
 export const CartData_Reducer = (state, action) => {
