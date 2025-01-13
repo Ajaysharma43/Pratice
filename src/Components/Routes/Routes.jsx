@@ -6,6 +6,7 @@ import MyComponent from "../UseContext/Component/Mycomponent";
 import Pratice from "../../Pages/Pratice/Pratice";
 import Ecommerce from "../../Pages/Ecommerce/Homepage/Ecommerce";
 import Product from "../Ecomerce/Product/Product";
+import TicTacToe from "../TicTacToe/TicRacToe/TicTacToe";
 
 const Routes = () => {
   const Route = useRoutes([
@@ -14,7 +15,8 @@ const Routes = () => {
     {element : <Todo/>,path:'/Todo'},
     {element:<Pratice/>,path:"/pratice"},
     {element:<Ecommerce/>,path:"/ecommerce"},
-    {element:<Product/>,path:"/product/:slug"}
+    {element:<Product/>,path:"/product/:slug"},
+    {element:<TicTacToe/>,path:"/tictactoe"}
   ]);
   return Route;
 };

@@ -67,12 +67,12 @@ const Data = () => {
 
       {/* Open Cart Button */}
       <div className="flex justify-end p-6 bg-gray-100">
-        <button
+      <button
           onClick={togglestate}
           className="py-2 px-8 text-lg font-medium text-gray-800 bg-white rounded-md border border-gray-300 hover:bg-gray-100 hover:shadow-md transition-all duration-300 focus:ring focus:ring-gray-200"
         >
           🛒 Open Cart
-        </button>
+        </button> 
       </div>
 
       {/* Products Grid */}
