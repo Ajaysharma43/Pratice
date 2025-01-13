@@ -4,15 +4,16 @@ import Square from "../Squere/Square";
 export default function Board() {
   const [xisNext, setxisNext] = useState(true);
   const [Squares, setSquares] = useState(Array(9).fill(null));
-  const [PrevWinner,setPrevWinner] = useState([])
   const Reverse = Array(9).fill(null);
-  const [Display, setDisplay] = useState(true);
+  const [Display, setDisplay] = useState(false);
+  const [Score, setScore] = useState({ X: 0, O: 0, Draw: 0 });
 
   const RestartGame = () => {
     setSquares(Reverse);
+    setDisplay(false); // Hide the restart button after game restart
   };
 
-  const calculatewinner = (Squares) => {
+  const calculateWinner = (Squares) => {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -31,28 +32,53 @@ export default function Board() {
         Squares[a] === Squares[b] &&
         Squares[a] === Squares[c]
       ) {
-        return Squares[a];
+        return Squares[a]; // Return the winner ('X' or 'O')
       }
     }
     return null;
   };
 
-  const winner = calculatewinner(Squares);
+  useEffect(() => {
+    const winner = calculateWinner(Squares);
+    if (winner) {
+      // Update score for the winner
+      setScore((prevScore) => ({
+        ...prevScore,
+        [winner]: prevScore[winner] + 1,
+      }));
+    } else if (Squares.every((square) => square !== null)) {
+      // Draw scenario
+      setScore((prevScore) => ({
+        ...prevScore,
+        Draw: prevScore.Draw + 1,
+      }));
+    }
+  }, [Squares]);
+
+  useEffect(() => {
+    const winner = calculateWinner(Squares);
+    if (winner || Squares.every((square) => square !== null)) {
+      // Show restart button when there's a winner or a draw
+      setDisplay(true);
+    }
+  }, [Squares]);
+
+  const winner = calculateWinner(Squares);
   let status;
   if (winner) {
     status = "Winner: " + winner;
-    console.log(Squares);
-    
+  } else if (Squares.every((square) => square !== null)) {
+    status = "It's a Draw!";
   } else {
     status = "Current player: " + (xisNext ? "X" : "O");
   }
 
   const handleClick = (i) => {
-    if (Squares[i] || calculatewinner(Squares)) {
-      return;
+    if (Squares[i] || winner) {
+      return; // Prevent updating if the square is already filled or the game is over
     } else {
       const Nextsquare = Squares.slice();
-      if (xisNext == true) {
+      if (xisNext) {
         Nextsquare[i] = "X";
         setxisNext(false);
       } else {
@@ -60,9 +86,9 @@ export default function Board() {
         setxisNext(true);
       }
       setSquares(Nextsquare);
-      console.log(Squares);
     }
   };
+
   return (
     <>
       <div className="status text-lg font-semibold text-center p-2 bg-blue-100 text-blue-700 rounded shadow">
@@ -85,15 +111,35 @@ export default function Board() {
           <Square value={Squares[7]} onSquereClick={() => handleClick(7)} />
           <Square value={Squares[8]} onSquereClick={() => handleClick(8)} />
         </div>
-        {winner && (
-        <button
-          onClick={RestartGame}
-          className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Restart
-        </button>
-      )}
+
+        {Display && (
+          <button
+            onClick={RestartGame}
+            className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Restart
+          </button>
+        )}
       </div>
+
+      <div className="scoreboard text-center mt-[15%] space-y-4">
+  <div className="text-2xl font-bold text-gray-800">Scoreboard</div>
+  <div className="grid grid-cols-3 gap-4 text-lg font-medium">
+    <div className="bg-blue-100 p-4 rounded-lg shadow-md flex flex-col items-center">
+      <div className="text-blue-700 font-bold text-xl mb-2">Player X</div>
+      <div className="text-blue-500 text-2xl">{Score.X}</div>
+    </div>
+    <div className="bg-red-100 p-4 rounded-lg shadow-md flex flex-col items-center">
+      <div className="text-red-700 font-bold text-xl mb-2">Player O</div>
+      <div className="text-red-500 text-2xl">{Score.O}</div>
+    </div>
+    <div className="bg-gray-100 p-4 rounded-lg shadow-md flex flex-col items-center">
+      <div className="text-gray-700 font-bold text-xl mb-2">Draw</div>
+      <div className="text-gray-500 text-2xl">{Score.Draw}</div>
+    </div>
+  </div>
+</div>
+
     </>
   );
 }
