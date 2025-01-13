@@ -16,13 +16,12 @@ export default function Board() {
 
   const RestartGame = () => {
     setSquares(Reverse);
-    setDisplay(false); // Hide the restart button after game restart
+    setDisplay(false); 
 
-    // Animate the grid on reset
     anime({
       targets: gridRef.current.children,
       scale: [0, 1],
-      delay: anime.stagger(100), // Staggered animation for each square
+      delay: anime.stagger(100), 
       duration: 500,
       easing: "easeOutElastic(1, 0.5)",
     });
@@ -47,7 +46,7 @@ export default function Board() {
         Squares[a] === Squares[b] &&
         Squares[a] === Squares[c]
       ) {
-        return Squares[a]; // Return the winner ('X' or 'O')
+        return Squares[a]; 
       }
     }
     return null;
@@ -61,7 +60,6 @@ export default function Board() {
         [winner]: prevScore[winner] + 1,
       }));
 
-      // Animate the scoreboard
       anime({
         targets: scoreboardRef.current.children,
         scale: [0.8, 1],
@@ -74,7 +72,6 @@ export default function Board() {
         Draw: prevScore.Draw + 1,
       }));
 
-      // Animate the scoreboard
       anime({
         targets: scoreboardRef.current.children,
         scale: [0.8, 1],
@@ -89,7 +86,6 @@ export default function Board() {
     if (winner || Squares.every((square) => square !== null)) {
       setDisplay(true);
 
-      // Animate the restart button
       anime({
         targets: restartButtonRef.current,
         scale: [0, 1],
@@ -110,7 +106,6 @@ export default function Board() {
   }
 
   useEffect(() => {
-    // Animate the status text
     anime({
       targets: statusRef.current,
       opacity: [0, 1],
@@ -122,7 +117,7 @@ export default function Board() {
 
   const handleClick = (i) => {
     if (Squares[i] || winner) {
-      return; // Prevent updating if the square is already filled or the game is over
+      return; 
     } else {
       const Nextsquare = Squares.slice();
       if (xisNext) {
