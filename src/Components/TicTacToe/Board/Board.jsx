@@ -4,6 +4,7 @@ import Square from "../Squere/Square";
 export default function Board() {
   const [xisNext, setxisNext] = useState(true);
   const [Squares, setSquares] = useState(Array(9).fill(null));
+  const [PrevWinner,setPrevWinner] = useState([])
   const Reverse = Array(9).fill(null);
   const [Display, setDisplay] = useState(true);
 
@@ -40,6 +41,8 @@ export default function Board() {
   let status;
   if (winner) {
     status = "Winner: " + winner;
+    console.log(Squares);
+    
   } else {
     status = "Current player: " + (xisNext ? "X" : "O");
   }
@@ -82,9 +85,14 @@ export default function Board() {
           <Square value={Squares[7]} onSquereClick={() => handleClick(7)} />
           <Square value={Squares[8]} onSquereClick={() => handleClick(8)} />
         </div>
-        <button onClick={() => RestartGame()} hidden={Display}>
+        {winner && (
+        <button
+          onClick={RestartGame}
+          className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
           Restart
         </button>
+      )}
       </div>
     </>
   );
