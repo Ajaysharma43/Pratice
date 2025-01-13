@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Square from "../Squere/Square";
 
 export default function Board() {
   const [xisNext, setxisNext] = useState(true);
   const [Squares, setSquares] = useState(Array(9).fill(null));
+  const Reverse = Array(9).fill(null);
+  const [Display, setDisplay] = useState(true);
+
+  const RestartGame = () => {
+    setSquares(Reverse);
+  };
 
   const calculatewinner = (Squares) => {
     const lines = [
@@ -24,8 +30,6 @@ export default function Board() {
         Squares[a] === Squares[b] &&
         Squares[a] === Squares[c]
       ) {
-        console.log(Squares[a]);
-
         return Squares[a];
       }
     }
@@ -62,7 +66,7 @@ export default function Board() {
         {status}
       </div>
 
-      <div className="grid justify-center">
+      <div className="grid justify-center relative top-[50px]">
         <div className="flex">
           <Square value={Squares[0]} onSquereClick={() => handleClick(0)} />
           <Square value={Squares[1]} onSquereClick={() => handleClick(1)} />
@@ -78,6 +82,9 @@ export default function Board() {
           <Square value={Squares[7]} onSquereClick={() => handleClick(7)} />
           <Square value={Squares[8]} onSquereClick={() => handleClick(8)} />
         </div>
+        <button onClick={() => RestartGame()} hidden={Display}>
+          Restart
+        </button>
       </div>
     </>
   );
