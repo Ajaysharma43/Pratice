@@ -1,7 +1,11 @@
+import Board from "../Board/Board";
+
 const TicTacToe = () => {
     return (
         <>
-        <h1>hello world</h1>
+        <div>
+        <Board/>
+        </div>
         </>
     )
 }
